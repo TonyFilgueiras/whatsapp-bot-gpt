@@ -45,12 +45,16 @@ search_bar.send_keys(teste)
 # driver.find_element(By.CSS_SELECTOR, 'span[title="Teste_bot"]').click()
 
 # calma = driver.find_element(By.CSS_SELECTOR, 'span[title="Teste_bot"]')
+
 WebDriverWait(driver, 10).until(EC.element_to_be_clickable(driver.find_element(By.CSS_SELECTOR, 'span[title="Teste_bot"]')))
+sleep(1)
 driver.find_element(By.CSS_SELECTOR, 'span[title="Teste_bot"]').click()
+
 # WebDriverWait(driver, 10).until(EC.presence_of_element_located(driver.find_element("xpath", '//*[@id="side"]/div[1]/div/div/span/button/span').click()))
 
 # botao = driver.find_element("xpath", '//*[@id="side"]/div[1]/div/div/span/button/span')
 WebDriverWait(driver, 10).until(EC.element_to_be_clickable(driver.find_element("xpath", '//*[@id="side"]/div[1]/div/div/span/button/span')))
+sleep(1)
 driver.find_element("xpath", '//*[@id="side"]/div[1]/div/div/span/button/span').click()
 
 def get_last_message():
@@ -81,12 +85,16 @@ def get_last_message():
         raise ("Couldnt find the element")
     
 
+old_len = driver.execute_script('return document.querySelector("#main > div._2gzeB > div > div._5kRIK > div.n5hs2j7m.oq31bsqd.gx1rr48f.qh5tioqs").children.length;')
 
 while True:
-    text= get_last_message()
-    print(text)
+    new_len = driver.execute_script('return document.querySelector("#main > div._2gzeB > div > div._5kRIK > div.n5hs2j7m.oq31bsqd.gx1rr48f.qh5tioqs").children.length;')
 
-    if text == "!stop":
-        break
-    # wait for some time before checking for new messages again
-    sleep(5)
+    if new_len != old_len:
+        text= get_last_message()
+        print(text)
+
+        if text == "!stop":
+            break
+        old_len = new_len
+    sleep(1)

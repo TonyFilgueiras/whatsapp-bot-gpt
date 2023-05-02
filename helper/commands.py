@@ -32,6 +32,7 @@ possible_commands = [
 ignoring = ["blz", "a", "sim", "nao", "tbm", "ja é", "jaé", "jae", "ja", "vlw", "valeu"]
 
 def execute_command(text: str):
+    text = text.lower()
     for commands in possible_commands:   
         if text not in commands.get("command"):
             pass
