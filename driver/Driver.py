@@ -1,13 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+from config import REMOTE_DEBUGGING_PORT
 # from selenium.webdriver.common.keys import Keys
 
 class WebDriverWrapper:
     def __init__(self):
         self.driver = webdriver.Chrome(service=self.service,options=self.options)
-        self.driver.execute_script("window.open('https://web.whatsapp.com/');")
-        self.driver.execute_script("window.open('https://chat.openai.com/');")
+
     def __enter__(self):
         return self
     
@@ -30,7 +30,7 @@ class WebDriverWrapper:
     def options(self):
         opt = webdriver.ChromeOptions()
         opt.add_argument("start-maximized")
-        opt.add_experimental_option("debuggerAddress", "localhost:9222")
+        opt.add_experimental_option("debuggerAddress", f"localhost:{REMOTE_DEBUGGING_PORT}")
 
         return opt
 

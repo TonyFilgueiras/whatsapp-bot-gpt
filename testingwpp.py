@@ -4,8 +4,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 # from selenium.webdriver.chrome.service import Service as ChromeService
 # from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
@@ -38,21 +38,25 @@ bernardo = "21 98790-9909"
 teste = "Teste_bot"
 
 search_bar = driver.find_element("xpath", '//*[@id="side"]/div[1]/div/div/div[2]/div/div[1]/p')
-search_bar.send_keys(bernardo)
-sleep(2)
+search_bar.clear()
+search_bar.send_keys(teste)
+# sleep(2)
 
-driver.find_element(By.CSS_SELECTOR, 'span[title="Bernardo"]').click()
+# driver.find_element(By.CSS_SELECTOR, 'span[title="Teste_bot"]').click()
 
-
-# WebDriverWait(driver, 10).until(EC.presence_of_element_located(driver.find_element("xpath", '//*[@id="pane-side"]/div[1]/div/div/div[3]/div/div').click()))
+# calma = driver.find_element(By.CSS_SELECTOR, 'span[title="Teste_bot"]')
+WebDriverWait(driver, 10).until(EC.element_to_be_clickable(driver.find_element(By.CSS_SELECTOR, 'span[title="Teste_bot"]')))
+driver.find_element(By.CSS_SELECTOR, 'span[title="Teste_bot"]').click()
 # WebDriverWait(driver, 10).until(EC.presence_of_element_located(driver.find_element("xpath", '//*[@id="side"]/div[1]/div/div/span/button/span').click()))
-sleep(2)
+
+# botao = driver.find_element("xpath", '//*[@id="side"]/div[1]/div/div/span/button/span')
+WebDriverWait(driver, 10).until(EC.element_to_be_clickable(driver.find_element("xpath", '//*[@id="side"]/div[1]/div/div/span/button/span')))
 driver.find_element("xpath", '//*[@id="side"]/div[1]/div/div/span/button/span').click()
 
 def get_last_message():
     try:
-        messages =  driver.find_elements(By.CSS_SELECTOR, "div[data-id*='false']")
-        last_message = messages[-2]
+        messages =  driver.find_elements(By.CSS_SELECTOR, "div[data-id*='true']")
+        last_message = messages[-1]
         
         message_content =  last_message.find_element(By.CLASS_NAME, '_11JPr.selectable-text.copyable-text')        
 
@@ -76,44 +80,13 @@ def get_last_message():
     except:
         raise ("Couldnt find the element")
     
-def get_chatgpt_reply(childs : list):
-    try:    
-        gpt = driver.find_element("xpath", f'//*[@id="__next"]/div[2]/div[2]/main/div[1]/div/div/div/div[{len(childs)-1}]/div/div[2]/div[1]/div/div')
-                                        #  //*[@id="__next"]/div[2]/div[2]/main/div[1]/div/div/div/div[2]/div/div[2]/div[1]/div/div
-        answer = gpt.text
 
-        return answer
-    except:
-        raise ("Couldnt find the element")
 
-def send_message():
-    
-    driver.switch_to.window(window_wpp)
+while True:
+    text= get_last_message()
+    print(text)
 
-    driver.find_element("xpath", '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]/p').send_keys(answer + "\r - ChatGpt"+ Keys.RETURN)
-
-text= get_last_message()
-
-print(text)
-
-answer = "didnt work bro..."
-
-if text == "É audio":
-    driver.find_element("xpath", '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]/p').send_keys(text + "\r - ChatGpt"+ Keys.RETURN)
-
-else:
-    driver.switch_to.window(window_chatgpt)
-    driver.find_element("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[2]/textarea').send_keys("Responder ao Bernardo " +text + Keys.RETURN)
-    sleep(20)
-
-    chats = driver.find_element("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[1]/div/div/div')
-    childs = chats.find_elements("xpath", "./*")
-    print(len(childs))
-
-    answer = get_chatgpt_reply(childs)
-
-    print(answer)
-
-    driver.switch_to.window(window_wpp)
-
-    driver.find_element("xpath", '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]/p').send_keys(answer + "\r - ChatGpt"+ Keys.RETURN)
+    if text == "!stop":
+        break
+    # wait for some time before checking for new messages again
+    sleep(5)
