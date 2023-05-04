@@ -36,6 +36,8 @@ text= "me explica soma"
 driver.switch_to.window(window_chatgpt)
 driver.find_element("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[2]/textarea').send_keys("Responder ao Bernardo " +text + Keys.RETURN)
 
+# element = driver.find_element("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[1]/div/button')
+WebDriverWait(driver, 30).until(EC.visibility_of_element_located(("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[1]/div/button')))
 WebDriverWait(driver, 30).until(EC.text_to_be_present_in_element(("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[1]/div/button/div'), "Regenerate response"))
 
 chats = driver.find_element("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[1]/div/div/div')
