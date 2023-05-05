@@ -37,8 +37,9 @@ class WebDriverWrapper:
         childs = chats.find_elements("xpath", "./*")
 
         try:    
-            gpt = self.driver.find_element("xpath", f'//*[@id="__next"]/div[2]/div[2]/main/div[1]/div/div/div/div[{len(childs)-1}]/div/div[2]/div[1]/div/div')
-                                            #  //*[@id="__next"]/div[2]/div[2]/main/div[1]/div/div/div/div[2]/div/div[2]/div[1]/div/div
+            gpt = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__next"]/div[2]/div[2]/main/div[1]/div/div/div/div[{len(childs)-1}]/div/div[2]/div[1]/div/div')))
+            # gpt = self.driver.find_element("xpath", f'//*[@id="__next"]/div[2]/div[2]/main/div[1]/div/div/div/div[16]/div/div[2]/div[1]/div/div')
+
             answer = gpt.text
 
             return answer
@@ -53,7 +54,7 @@ class WebDriverWrapper:
             self.driver.find_element("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[2]/textarea').send_keys("Responder ao Bernardo " +text + Keys.RETURN)
 
             WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located(("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[1]/div/button')))
-            WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element(("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[1]/div/button/div'), "Regenerate response"))
+            WebDriverWait(self.driver, 60).until(EC.text_to_be_present_in_element(("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[1]/div/button/div'), "Regenerate response"))
 
             chats = self.driver.find_element("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[1]/div/div/div')
 
@@ -120,18 +121,18 @@ class WebDriverWrapper:
 
                     self.send_message("Foi mal amigão... Mas eu não aprendi a escutar áudio ainda", "Luma")
 
-                    return ""
+                    return message_content.text
                 except NoSuchElementException:
                     try:
                         message_content = his_last_message.find_element(By.CLASS_NAME, "jciay5ix tvf2evcx oq44ahr5 lb5m6g5c")
 
                         self.send_message("Belíssima imagem amiguinho, mas não consigo fazer nada a respeito disso...", "Luma")
-                        return ""
+                        return message_content.text
                     except NoSuchElementException:
                         message_content = his_last_message.find_element(By.CLASS_NAME, "K1vBa _1aShU ZRhsD")
 
                         self.send_message("Belíssimo sticker amiguinho, mas não consigo fazer nada a respeito disso...", "Luma")
-                        return ""
+                        return message_content.text
         if self.verify_for_contact():
             print("to no ctt certo")
             return getting_last_message()

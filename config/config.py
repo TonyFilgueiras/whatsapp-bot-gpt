@@ -1,7 +1,4 @@
 REMOTE_DEBUGGING_PORT = 9223
-CONTACT = "Teste_bot"
-SEARCH_NUMBER = "Teste_bot"
-# CONTACT = "Bernardo"
-# SEARCH_NUMBER = "21 98790-9909"
-# CONTACT = "Talita Mosq"
-# SEARCH_NUMBER = "21 98601-2614"
+# CONTACT = "Teste_bot"
+# SEARCH_NUMBER = "Teste_bot"
+

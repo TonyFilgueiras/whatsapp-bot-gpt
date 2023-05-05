@@ -5,13 +5,13 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from config import REMOTE_DEBUGGING_PORT
 
-service = ChromeService(ChromeDriverManager().install())
+# service = ChromeService(ChromeDriverManager().install())
 options = webdriver.ChromeOptions()
 # options.add_experimental_option("detach", True)
 options.add_argument("start-maximized")
 options.add_argument("--auto-open-devtools-for-tabs")
 options.add_experimental_option("debuggerAddress", f'localhost:{REMOTE_DEBUGGING_PORT}')
-driver = webdriver.Chrome(service=service, options=options)
+driver = webdriver.Chrome(options=options)
 
 driver.execute_script("window.open('https://web.whatsapp.com/');")
 driver.execute_script("window.open('https://chat.openai.com/');")  

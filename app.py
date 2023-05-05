@@ -24,7 +24,7 @@ while True:
                     answer = driver.get_chatgpt_reply(chats)
                     driver.send_message(answer, "ChatGPT")
             his_old_message = driver.get_his_last_message()
-            my_last_message = driver.get_my_last_message()
+            my_old_message = driver.get_my_last_message()
 
         my_last_message = driver.get_my_last_message()
         if my_last_message != my_old_message:
