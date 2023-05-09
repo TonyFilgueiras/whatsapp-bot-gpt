@@ -1,8 +1,10 @@
 from driver import WebDriverWrapper
 from time import sleep
 from config import CONTACT
+from chatgpt import ChatGpt
 
 driver = WebDriverWrapper()
+gpt = ChatGpt()
 
 old_len = driver.execute_script('return document.querySelector("#main > div._2gzeB > div > div._5kRIK > div.n5hs2j7m.oq31bsqd.gx1rr48f.qh5tioqs").children.length;')
 his_old_message = driver.get_his_last_message()
@@ -20,8 +22,7 @@ while True:
             else:
                 if driver.reading:
                     driver.send_message("Asking ChatGPT...", "Luma")
-                    chats = driver.ask_chatgpt(text=his_last_message)
-                    answer = driver.get_chatgpt_reply(chats)
+                    answer = gpt.ask_gpt(message=his_last_message)
                     driver.send_message(answer, "ChatGPT")
             his_old_message = driver.get_his_last_message()
             my_old_message = driver.get_my_last_message()
