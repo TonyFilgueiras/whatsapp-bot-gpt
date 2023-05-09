@@ -21,9 +21,10 @@ while True:
                 driver.execute_command(his_last_message)
             else:
                 if driver.reading:
-                    driver.send_message("Asking ChatGPT...", "Luma")
-                    answer = gpt.ask_gpt(message=his_last_message)
-                    driver.send_message(answer, "ChatGPT")
+                    if len(his_last_message.split()) > 2:
+                        driver.send_message("Asking ChatGPT...", "Luma")
+                        answer = gpt.ask_gpt(message=his_last_message)
+                        driver.send_message(answer, "ChatGPT")
             his_old_message = driver.get_his_last_message()
             my_old_message = driver.get_my_last_message()
 

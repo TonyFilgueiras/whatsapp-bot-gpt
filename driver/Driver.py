@@ -120,6 +120,7 @@ class WebDriverWrapper:
                     message_content = his_last_message.find_element(By.TAG_NAME, "canvas")
 
                     self.send_message("Foi mal amigão... Mas eu não aprendi a escutar áudio ainda", "Luma")
+                    self.execute_command("!stop")
 
                     return message_content.text
                 except NoSuchElementException:
@@ -127,11 +128,13 @@ class WebDriverWrapper:
                         message_content = his_last_message.find_element(By.CLASS_NAME, "jciay5ix tvf2evcx oq44ahr5 lb5m6g5c")
 
                         self.send_message("Belíssima imagem amiguinho, mas não consigo fazer nada a respeito disso...", "Luma")
+                        self.execute_command("!stop")
                         return message_content.text
                     except NoSuchElementException:
                         message_content = his_last_message.find_element(By.CLASS_NAME, "K1vBa _1aShU ZRhsD")
 
                         self.send_message("Belíssimo sticker amiguinho, mas não consigo fazer nada a respeito disso...", "Luma")
+                        self.execute_command("!stop")
                         return message_content.text
         if self.verify_for_contact():
             print("to no ctt certo")
@@ -197,8 +200,10 @@ class WebDriverWrapper:
     def execute_command(self, command:str):
         command = command.lower().strip()
         if command == "!stop":
+            self.send_message("Lendo = False", "Luma")
             self.set_reading(False)
         elif command == "!start":
+            self.send_message("Lendo = True", "Luma")
             self.set_reading(True)
         elif command == "!help":
             self.send_message(self.help_message, "Luma", send=False)

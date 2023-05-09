@@ -8,7 +8,7 @@ class ChatGpt:
         completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "user", "content": f"{message}"}
+                {"role": "user", "content": f"Responder ao Bernardo {message}"}
             ]
         )
         return completion.get("choices")[0].message.content
