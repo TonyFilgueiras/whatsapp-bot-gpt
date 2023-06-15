@@ -1,6 +1,4 @@
 REMOTE_DEBUGGING_PORT = 9223
-# CONTACT = "Teste_bot"
-# SEARCH_NUMBER = "Teste_bot"
-CONTACT = "Bernardo"
-SEARCH_NUMBER = "21 98790-9909"
-OPENAI_API_KEY = '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'
+# CONTACT = "Test"
+# SEARCH_NUMBER = "Test"
+OPENAI_API_KEY = 'your_key_here'
