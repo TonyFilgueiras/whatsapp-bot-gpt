@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-from config import REMOTE_DEBUGGING_PORT, CONTACT, SEARCH_NUMBER
+from config import REMOTE_DEBUGGING_PORT, CONTACT_NAME, SEARCH_NUMBER
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
@@ -51,7 +51,7 @@ class WebDriverWrapper:
     def ask_chatgpt(self, text:str)-> WebElement:
         self.driver.switch_to.window(self.gpt)
         try:
-            self.driver.find_element("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[2]/textarea').send_keys(f"Responder ao {CONTACT} " +text + Keys.RETURN)
+            self.driver.find_element("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[2]/textarea').send_keys(f"Responder ao {CONTACT_NAME} " +text + Keys.RETURN)
 
             WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located(("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[1]/div/button')))
             WebDriverWait(self.driver, 60).until(EC.text_to_be_present_in_element(("xpath", '//*[@id="__next"]/div[2]/div[2]/main/div[2]/form/div/div[1]/div/button/div'), "Regenerate response"))
@@ -67,14 +67,14 @@ class WebDriverWrapper:
         self.driver.switch_to.window(self.wpp)
         try:
             active_chat = self.driver.find_element("xpath", '//*[@id="main"]/header/div[2]/div[1]/div/span')
-            if active_chat.text == self.CONTACT:
+            if active_chat.text == self.CONTACT_NAME:
                 return True
             else:
                 return False
         except NoSuchElementException:
             return False
 
-    def go_for_contact(self):
+    def go_to_contact(self):
         self.driver.switch_to.window(self.wpp)
 
         try:
@@ -84,9 +84,9 @@ class WebDriverWrapper:
             search_bar = self.driver.find_element("xpath", '//*[@id="side"]/div[1]/div/div/div[2]/div/div[1]/p')
             search_bar.send_keys(SEARCH_NUMBER)
 
-            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.driver.find_element(By.CSS_SELECTOR, f'span[title="{self.CONTACT}"]')))
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.driver.find_element(By.CSS_SELECTOR, f'span[title="{self.CONTACT_NAME}"]')))
             sleep(1)
-            self.driver.find_element(By.CSS_SELECTOR, f'span[title="{self.CONTACT}"]').click()
+            self.driver.find_element(By.CSS_SELECTOR, f'span[title="{self.CONTACT_NAME}"]').click()
 
             self.clear_search_bar()
 
@@ -137,7 +137,7 @@ class WebDriverWrapper:
             return getting_last_message()
 
         else:
-            self.go_for_contact()
+            self.go_to_contact()
             return getting_last_message()
 
         
@@ -158,7 +158,7 @@ class WebDriverWrapper:
             return getting_last_self_message()
 
         else:
-            self.go_for_contact()
+            self.go_to_contact()
             return getting_last_self_message()
 
 
@@ -190,7 +190,7 @@ class WebDriverWrapper:
         if self.verify_for_contact():
             sending_message()
         else:
-            self.go_for_contact()
+            self.go_to_contact()
             sending_message()
 
     def execute_command(self, command:str):
@@ -241,7 +241,7 @@ class WebDriverWrapper:
             return False
 
     def introduce_luma(self):
-        return f"Olá {CONTACT}, eu sou a Luma!!\n\n Meu mestre me criou para te ajudar com o que for necessário. Tanto como dúvidas útis, ou até o simples fato de poder ter alguém para convesar.\nDigite '!help' para mais informações!"
+        return f"Olá {CONTACT_NAME}, eu sou a Luma!!\n\n Meu mestre me criou para te ajudar com o que for necessário. Tanto como dúvidas útis, ou até o simples fato de poder ter alguém para convesar.\nDigite '!help' para mais informações!"
 
     
     @property
@@ -297,8 +297,8 @@ class WebDriverWrapper:
         return ChromeService(ChromeDriverManager().install())
 
     @property
-    def CONTACT(self):
-        return str(CONTACT.strip())
+    def CONTACT_NAME(self):
+        return str(CONTACT_NAME.strip())
 
     @property
     def wpp(self):
@@ -321,7 +321,7 @@ class WebDriverWrapper:
 
     @property
     def help_message(self):
-        return f"Olá {CONTACT}!!\n Aqui está uma lista de comandos para auxiliar para você"
+        return f"Olá {CONTACT_NAME}!!\n Aqui está uma lista de comandos para auxiliar para você"
 
     @property
     def actions(self):

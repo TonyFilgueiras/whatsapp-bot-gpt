@@ -1,4 +1,4 @@
 REMOTE_DEBUGGING_PORT = 9223
-CONTACT = "Test"
+CONTACT_NAME = "Test"
 SEARCH_NUMBER = "Test"
 OPENAI_API_KEY = 'your_key_here'

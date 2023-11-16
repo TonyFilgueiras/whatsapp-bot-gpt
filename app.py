@@ -1,6 +1,6 @@
 from driver import WebDriverWrapper
 from time import sleep
-from config import CONTACT
+from config import CONTACT_NAME
 from chatgpt import ChatGpt
 
 driver = WebDriverWrapper()
